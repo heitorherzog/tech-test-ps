@@ -2,6 +2,11 @@
 
 - The program should be written using **test driven development**, following the red, green, refactor steps.
 - Please use one or more **design patterns** when developing your solution. This is your oportunity to show your skills, use it well.
+- Don't sacrifice TDD to complete the solution, this will result in a fail.
+- We don't mind if the solution is incomplete, we are only interested in seeing your approach.
+- We are looking for the solution to be well factored and to adhere to the **SOLID** principles.
+
+# Gitlab
 
 - Fork the project on gitlab.
 - Add @dreamdevio ( **Reporter** access ) as a member of your fork. You can easily do that on https://gitlab.com/`your-user`/tech-test-ps/settings/members.
@@ -9,12 +14,6 @@
 - Commit after every refactor cycle at least.
 - Don't use branches.
 - Try to not spend more than 3 hours to finish the tech test.
-
-Please, don't sacrifice TDD to complete the solution, this will result in a fail.
-
-We don't mind if the solution is incomplete, we are only interested in seeing your approach.
-
-We are looking for the solution to be well factored and to adhere to the **SOLID** principles.
 
 -------------------------------------------------------------
 
