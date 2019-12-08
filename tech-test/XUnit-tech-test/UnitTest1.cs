@@ -8,7 +8,8 @@ namespace XUnit_tech_test
         [Fact]
         public void Test1()
         {
-
+            var consoleContext = new ConsoleContext();
+            consoleContext.Test();
         }
     }
 }
