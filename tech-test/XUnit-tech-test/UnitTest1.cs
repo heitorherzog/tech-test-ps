@@ -1,7 +1,6 @@
-using System;
-using tech_test;
 using Xunit;
 using FluentAssertions;
+using tech_test; 
 
 namespace XUnit_tech_test
 {
