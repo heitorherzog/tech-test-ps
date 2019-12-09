@@ -32,7 +32,7 @@ namespace TechTest
 
         public string OutPutResult()
         {
-            string result = AppContext.ResultBuilder.ToString();
+            string result = AppContext.Handle.ResultBuilder.ToString();
             Console.WriteLine(result);
             return result;
         }

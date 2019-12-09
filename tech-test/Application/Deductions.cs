@@ -1,6 +1,6 @@
 ﻿namespace Application
 {
-    class Deductions
+   public class Deductions
     {
         public string Employeelocation { get; set; }
         public decimal GrossAmount { get; set; }

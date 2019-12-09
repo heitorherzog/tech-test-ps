@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Text;
 
 namespace Application
 {
     public class ApplicationContext
     {
-        public StringBuilder ResultBuilder { get; set; }
-        Deductions Deductions { get; set; }
+        CountryPayRollHandler PayRollState { get; }
+        public HandleOutputDeductions Handle { get; }
         public ApplicationContext()
         {
-            Deductions = new Deductions();
-            ResultBuilder = new StringBuilder();
+            PayRollState = new IrelandPayrollHandler();
+            Handle = new HandleOutputDeductions();
         }
         public UserInterpreted Interpret(IUserInput userInput)
         {
@@ -21,31 +20,16 @@ namespace Application
 
             var isValid = (hoursRate != 0 && hoursWorked != 0 && isvalidLocation);
 
-            return new UserInterpreted(isValid, hoursWorked, hoursRate);
+            return new UserInterpreted(isValid, hoursWorked, hoursRate, location);
         }
         public void Process(IUserInput userInput)
         {
             var UserInterpret = Interpret(userInput);
+            var payrollrule = PayRollState.SetCountryPayRoll(userInput);
+            var result = payrollrule?.ComputeTaxes(UserInterpret);
 
-            if (UserInterpret.isValid)
-            {
-
-                ResultBuilder.AppendFormat("Employee location: {0}{1}", Deductions.Employeelocation, Environment.NewLine);
-                ResultBuilder.AppendFormat("Gross Amount: {0:C}{1}", Deductions.GrossAmount, Environment.NewLine);
-                ResultBuilder.AppendLine("Less deductions");
-                ResultBuilder.AppendFormat("Income Tax: {0:C}{1}", Deductions.IncomeTax, Environment.NewLine);
-                ResultBuilder.AppendFormat("Universal Social Charge: {0:C}{1}", Deductions.UniversalSocialCharge, Environment.NewLine);
-                ResultBuilder.AppendFormat("Pension: {0:C}{1}", Deductions.Pension, Environment.NewLine);
-                ResultBuilder.AppendFormat("Net Amount: {0:C}{1}", Deductions.NetAmount, Environment.NewLine);
-            }
-            else
-            {
-                Append("Please insert valid values");
-            }
-        }
-        private void Append(string text)
-        {
-            ResultBuilder.Append(text);
+            Handle.GetDeductions(result);
+            Handle.FormatResult();
         }
     }
 }
