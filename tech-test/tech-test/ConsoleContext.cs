@@ -4,8 +4,8 @@ namespace TechTest
 {
     public class ConsoleContext
     {
-        UserInput UserInput { get; set; }
-        ApplicationContext AppContext { get; }
+        public UserInput UserInput { get; set; }
+        public ApplicationContext AppContext { get; }
 
         public ConsoleContext(ApplicationContext appContext, UserInput userInput = null)
         {
