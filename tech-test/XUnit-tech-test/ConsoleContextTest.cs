@@ -9,10 +9,8 @@ namespace XUnit_tech_test
     {
         [Theory]
         [InlineData("IRELAND", "1", "1")]
-        [InlineData("IRELAND", "1", "2")]
-        [InlineData("germany", "10", "20")]
-        [InlineData("irelandD", "1", "20")]
-        public void Should_Init_Be_NotNull_Test(string employeelocation, string srthoursworked, string srthourlyrate)
+        [InlineData("irelanD", "1", "2")]
+        public void Should_Process_Be_Valid_Ireland(string employeelocation, string srthoursworked, string srthourlyrate)
         {
             // arrange
             var input = new UserInput()
@@ -23,14 +21,66 @@ namespace XUnit_tech_test
             };
 
             var consoleContext = new ConsoleContext(new ApplicationContext(), input);
-            IUserInput result;
+            string outPutResult;
+            IUserInput userInputresult;
+            UserInterpreted userInterpreted;
+            CountryPayRollHandler payRollState;
 
             // act
             consoleContext.Init();
-            result = consoleContext.UserInput;
+            userInputresult = consoleContext.UserInput;
+            consoleContext.Process();
+            userInterpreted = consoleContext.AppContext.UserInterpreted;
+            payRollState = consoleContext.AppContext.PayRollState;
+            outPutResult = consoleContext.OutPutResult();
 
             // assert
-            result.Should().NotBeNull();
+            consoleContext.AppContext.Should().NotBeNull();
+            userInputresult.Should().NotBeNull();
+
+            userInterpreted.isValid.Should().BeTrue();
+            payRollState.Should().NotBeNull();
+            payRollState.Should().BeOfType<IrelandPayrollHandler>();
+            payRollState.PayRollCountry.Should().BeOfType<IrelandPayroll>();
+            outPutResult.Should().NotBeNullOrWhiteSpace();
+        }
+
+        [Theory]
+        [InlineData("IREAND", "x", "1")]
+        [InlineData("irelanDdd", "1", "2")]
+        public void Should_Process_Be_Invalid_Ireland(string employeelocation, string srthoursworked, string srthourlyrate)
+        {
+            // arrange
+            var input = new UserInput()
+            {
+                EmployeesLocation = employeelocation,
+                StrHoursRate = srthourlyrate,
+                StrHoursWorked = srthoursworked
+            };
+
+            var consoleContext = new ConsoleContext(new ApplicationContext(), input);
+            string outPutResult;
+            IUserInput userInputresult;
+            UserInterpreted userInterpreted;
+            CountryPayRollHandler payRollState;
+
+            // act
+            consoleContext.Init();
+            userInputresult = consoleContext.UserInput;
+            consoleContext.Process();
+            userInterpreted = consoleContext.AppContext.UserInterpreted;
+            payRollState = consoleContext.AppContext.PayRollState;
+            outPutResult = consoleContext.OutPutResult();
+
+            // assert
+            consoleContext.AppContext.Should().NotBeNull();
+            userInputresult.Should().NotBeNull();
+
+            userInterpreted.isValid.Should().BeFalse();
+            payRollState.Should().NotBeNull();
+            payRollState.Should().BeOfType<IrelandPayrollHandler>();
+            payRollState.PayRollCountry.Should().BeNull();
+            outPutResult.Should().NotBeNullOrWhiteSpace();
         }
     }
 }

@@ -2,11 +2,15 @@
 {
     public class GermanyPayrollHandler : CountryPayRollHandler
     {
-        public override IPayRollCountry SetCountryPayRoll(IUserInput user)
+        public override IPayRollCountry PayRollCountry { get => _payRollCountry; }
+        private IPayRollCountry _payRollCountry { get; set; }
+
+        public override IPayRollCountry SetCountryPayRoll(UserInterpreted user)
         {
             if (user.EmployeesLocation == Countries.germany.ToString())
             {
-                return null;
+                _payRollCountry = null;
+                return _payRollCountry;
             }
             else
             {
