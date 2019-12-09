@@ -33,6 +33,11 @@ namespace tech_test
     {
         UserInput UserInput { get; set; }
         StringBuilder Builder { get; set; }
+
+        public ConsoleContext()
+        {
+            Builder = new StringBuilder();
+        }
         public void Init(UserInput userInput)
         {
             UserInput = userInput;
@@ -53,7 +58,7 @@ namespace tech_test
             int.TryParse(UserInput.StrHoursWorked, out int hoursworked);
             int.TryParse(UserInput.StrHoursRate, out int hoursRate);
 
-            if (UserInput.EmployeesLocation.ToString() == "ireland")
+            if (UserInput.EmployeesLocation.ToLower() == "ireland")
             {
                 var d = new Deductions()
                 {
@@ -66,20 +71,17 @@ namespace tech_test
                 };
 
 
-                StringBuilder b = new StringBuilder();
-                b.AppendFormat("Employee location: {0}{1}", d.Employeelocation, Environment.NewLine);
-                b.AppendFormat("Gross Amount: {0:C}{1}", d.GrossAmount, Environment.NewLine);
-                b.AppendLine("Less deductions");
-                b.AppendFormat("Income Tax: {0:C}{1}", d.IncomeTax, Environment.NewLine);
-                b.AppendFormat("Universal Social Charge: {0:C}{1}", d.UniversalSocialCharge, Environment.NewLine);
-                b.AppendFormat("Pension: {0:C}{1}", d.Pension, Environment.NewLine);
-                b.AppendFormat("Net Amount: {0:C}{1}", d.NetAmount, Environment.NewLine);
-                Builder = b;
+                Builder.AppendFormat("Employee location: {0}{1}", d.Employeelocation, Environment.NewLine);
+                Builder.AppendFormat("Gross Amount: {0:C}{1}", d.GrossAmount, Environment.NewLine);
+                Builder.AppendLine("Less deductions");
+                Builder.AppendFormat("Income Tax: {0:C}{1}", d.IncomeTax, Environment.NewLine);
+                Builder.AppendFormat("Universal Social Charge: {0:C}{1}", d.UniversalSocialCharge, Environment.NewLine);
+                Builder.AppendFormat("Pension: {0:C}{1}", d.Pension, Environment.NewLine);
+                Builder.AppendFormat("Net Amount: {0:C}{1}", d.NetAmount, Environment.NewLine);
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine("not implemented");
+                WriteText("not implemented");
             }
         }
 
@@ -88,6 +90,12 @@ namespace tech_test
             string result = Builder.ToString();
             Console.WriteLine(result);
             return result;
+        }
+
+        private string WriteText(string text)
+        {
+            Builder.Append(text);
+            return Builder.ToString();
         }
     }
     class Deductions
